@@ -9,7 +9,7 @@ WHERE salesman.city = customer.city;
 -- Write a SQL statement to find the names of all customers along with the salesmen who works for them.
 
 SELECT customer.cust_name, salesman.name FROM customer, salesman 
-WHERE customer.salesman_id = salesman.salesman_id
+WHERE customer.salesman_id = salesman.salesman_id;
 
 -- 3
 -- Write a SQL statement to display all those orders by the customers not located in the same cities where their salesmen live.
