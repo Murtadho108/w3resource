@@ -46,3 +46,65 @@ HAVING grade > (SELECT AVG(grade) FROM customer WHERE city = 'New York');
 -- 9
 -- Write a query to display all customers with orders on October 5, 2012.
 
+SELECT * FROM customer a,orders  b 
+WHERE a.customer_id = b.customer_id 
+AND b.ord_date='2012-10-05';
+
+-- 10
+-- Write a query to display all the customers with orders issued on date 17th August, 2012.
+
+SELECT b.*, a.cust_name FROM orders b, customer a
+WHERE a.customer_id=b.customer_id AND b.ord_date='2012-08-17';
+
+-- 11
+-- Write a query to find the name and numbers of all salesmen who had more than one customer.
+
+SELECT salesman_id,name 
+FROM salesman a 
+WHERE 1 < (SELECT COUNT(*) FROM customer WHERE salesman_id=a.salesman_id);
+
+-- 12
+-- Write a query to find all orders with order amounts which are above-average amounts for their customers.
+
+SELECT * FROM orders a
+WHERE purch_amt > (SELECT AVG(purch_amt) FROM orders b WHERE b.customer_id = a.customer_id);
+     
+ -- 13
+ -- Write a queries to find all orders with order amounts which are on or above-average amounts for their customers.
+
+SELECT *  FROM orders a 
+WHERE purch_amt >= (SELECT AVG(purch_amt) FROM orders b WHERE b.customer_id = a.customer_id);
+
+-- 14
+-- Write a query to find the sums of the amounts from the orders table, grouped by date, 
+-- eliminating all those dates where the sum was not at least 1000.00 above the maximum order amount for that date.
+
+SELECT ord_date, SUM (purch_amt) FROM orders a
+GROUP BY ord_date
+HAVING SUM (purch_amt) >
+    (SELECT 1000.00 + MAX(purch_amt) 
+     FROM orders b 
+     WHERE a.ord_date = b.ord_date);
+
+-- 15
+-- Write a query to extract the data from the customer table if and only if one or more of the customers 
+-- in the customer table are located in London.
+ 
+SELECT customer_id,cust_name, city FROM customer
+WHERE EXISTS (SELECT * FROM customer WHERE city='London');
+
+-- 16
+-- Write a query to find the salesmen who have multiple customers.
+
+SELECT * FROM salesman 
+WHERE salesman_id IN (SELECT DISTINCT salesman_id FROM customer a 
+   WHERE EXISTS (
+      SELECT * FROM customer b WHERE b.salesman_id=a.salesman_id 
+      AND b.cust_name<>a.cust_name));
+
+-- 17
+-- Write a query to find all the salesmen who worked for only one customer.
+
+        
+        
+ 
